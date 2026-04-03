@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}{% if object %}Edit Post{% else %}Create New Post{% endif %} — DevBlog{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4 p-md-5">
+                    <h3 class="fw-bold mb-4">
+                        <i class="bi {% if object %}bi-pencil-square{% else %}bi-plus-circle{% endif %} me-2 text-primary"></i>
+                        {% if object %}Edit Post{% else %}Create New Post{% endif %}
+                    </h3>
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.media }}
+                        {% crispy form %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

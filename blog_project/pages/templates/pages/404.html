@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Page Not Found — DevBlog{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <div class="error-404">
+                <span class="error-code display-1 fw-bold text-primary">4</span>
+                <span class="error-icon display-1 fw-bold">😕</span>
+                <span class="error-code display-1 fw-bold text-primary">4</span>
+            </div>
+            <h2 class="fw-bold mt-3">Oops! Page Not Found</h2>
+            <p class="text-muted mb-4">
+                The page you're looking for doesn't exist or has been moved.
+            </p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="{% url 'blog:post-list' %}" class="btn btn-primary btn-lg">
+                    <i class="bi bi-house-door me-1"></i>Go Home
+                </a>
+                <a href="{% url 'pages:contact' %}" class="btn btn-outline-secondary btn-lg">
+                    <i class="bi bi-envelope me-1"></i>Contact Us
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

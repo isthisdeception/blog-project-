@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Posts by {{ author.username }} — DevBlog{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Author Profile Header -->
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body p-4 d-flex flex-column flex-md-row align-items-md-center gap-4">
+            {% if author.profile.profile_picture %}
+                <img src="{{ author.profile.profile_picture.url }}" 
+                     alt="{{ author.username }}"
+                     class="rounded-circle" width="80" height="80" style="object-fit: cover;">
+            {% else %}
+                <div class="author-avatar-large">{{ author.username|first|upper }}</div>
+            {% endif %}
+            <div>
+                <h3 class="fw-bold mb-1">{{ author.get_full_name|default:author.username }}</h3>
+                {% if author.profile.bio %}
+                    <p class="text-muted mb-2">{{ author.profile.bio|truncatechars:150 }}</p>
+                {% endif %}
+                <div class="d-flex flex-wrap gap-3 text-muted small">
+                    <span><i class="bi bi-journal-text me-1"></i>{{ author.posts.published.count }} posts</span>
+                    {% if author.profile.location %}
+                        <span><i class="bi bi-geo-alt me-1"></i>{{ author.profile.location }}</span>
+                    {% endif %}
+                    <span><i class="bi bi-calendar3 me-1"></i>Joined {{ author.date_joined|date:"F Y" }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <h4 class="fw-bold mb-4">Posts by {{ author.username }}</h4>
+    
+    {% if posts %}
+        <div class="row g-4">
+            {% for post in posts %}
+                <div class="col-md-6 col-lg-4">
+                    {% include 'blog/_post_card.html' with post=post %}
+                </div>
+            {% endfor %}
+        </div>
+        {% include 'blog/_pagination.html' %}
+    {% else %}
+        <div class="text-center py-5">
+            <i class="bi bi-journal-x text-muted" style="font-size: 3rem;"></i>
+            <p class="text-muted mt-3">No posts published by this author yet.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

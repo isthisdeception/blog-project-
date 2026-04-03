@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Admin Dashboard — DevBlog{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+            <h2 class="fw-bold mb-0">Dashboard</h2>
+            <p class="text-muted">Overview of your blog platform.</p>
+        </div>
+        <!-- Link to full Django Admin -->
+        <a href="/admin" target="_blank" class="btn btn-outline-primary">
+            <i class="bi bi-lock me-2"></i>Open Django Admin
+        </a>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row g-4 mb-5">
+        <!-- Posts Card -->
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100 border-start border-4 border-primary">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-muted mb-1 small text-uppercase fw-bold">Total Posts</p>
+                            <h3 class="mb-0 fw-bold">{{ total_posts }}</h3>
+                        </div>
+                        <div class="icon-shape bg-primary bg-opacity-10 text-primary rounded-circle p-3">
+                            <i class="bi bi-journal-text fs-4"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Users Card -->
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100 border-start border-4 border-success">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-muted mb-1 small text-uppercase fw-bold">Users</p>
+                            <h3 class="mb-0 fw-bold">{{ total_users }}</h3>
+                        </div>
+                        <div class="icon-shape bg-success bg-opacity-10 text-success rounded-circle p-3">
+                            <i class="bi bi-people fs-4"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Messages Card -->
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100 border-start border-4 border-warning">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-muted mb-1 small text-uppercase fw-bold">Contact Messages</p>
+                            <h3 class="mb-0 fw-bold">
+                                {{ total_messages }} 
+                                <span class="badge bg-danger rounded-pill ms-1" style="font-size: 0.6em;">
+                                    {{ new_messages_count }} new
+                                </span>
+                            </h3>
+                        </div>
+                        <div class="icon-shape bg-warning bg-opacity-10 text-warning rounded-circle p-3">
+                            <i class="bi bi-envelope fs-4"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Subscribers Card -->
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100 border-start border-4 border-info">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-muted mb-1 small text-uppercase fw-bold">Subscribers</p>
+                            <h3 class="mb-0 fw-bold">{{ total_subscribers }}</h3>
+                        </div>
+                        <div class="icon-shape bg-info bg-opacity-10 text-info rounded-circle p-3">
+                            <i class="bi bi-broadcast fs-4"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content: Messages & Recent Activity -->
+    <div class="row g-4">
+        
+        <!-- Recent Contact Messages -->
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 fw-bold"><i class="bi bi-inbox me-2"></i>Recent Messages</h5>
+                    <a href="/admin/pages/contactmessage/" class="btn btn-sm btn-outline-secondary">View All</a>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th class="ps-4">Sender</th>
+                                    <th>Subject</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for msg in recent_messages %}
+                                <tr>
+                                    <td class="ps-4">
+                                        <div class="fw-bold">{{ msg.name }}</div>
+                                        <div class="small text-muted">{{ msg.email }}</div>
+                                    </td>
+                                    <td>
+                                        <span class="text-truncate d-inline-block" style="max-width: 150px;" title="{{ msg.message }}">
+                                            {{ msg.subject }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <small class="text-muted">{{ msg.created_at|date:"M d, Y" }}</small>
+                                    </td>
+                                    <td>
+                                        {% if msg.status == 'new' %}
+                                            <span class="badge bg-danger bg-opacity-75">New</span>
+                                        {% elif msg.status == 'read' %}
+                                            <span class="badge bg-warning text-dark">Read</span>
+                                        {% else %}
+                                            <span class="badge bg-success bg-opacity-75">Replied</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="/admin/pages/contactmessage/{{ msg.id }}/change/" class="btn btn-sm btn-light" title="Open in Admin">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="5" class="text-center py-4 text-muted">No messages found.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Posts -->
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0 fw-bold"><i class="bi bi-clock-history me-2"></i>Recent Posts</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group list-group-flush">
+                        {% for post in recent_posts %}
+                        <a href="{% url 'blog:post-detail' post.slug %}" class="list-group-item list-group-item-action px-4 py-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="text-truncate" style="max-width: 200px;">{{ post.title }}</div>
+                                <div>
+                                    {% if post.status == 'draft' %}
+                                        <span class="badge bg-secondary" style="font-size: 0.7em;">Draft</span>
+                                    {% else %}
+                                        <span class="badge bg-success bg-opacity-75" style="font-size: 0.7em;">Live</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="small text-muted mt-1">
+                                <i class="bi bi-person me-1"></i>{{ post.author.username}} &bull; {{ post.created_at|timesince }} ago
+                            </div>
+                        </a>
+                        {% empty %}
+                        <div class="p-4 text-center text-muted">No posts yet.</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

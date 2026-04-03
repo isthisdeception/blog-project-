@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Us — DevBlog{% endblock %}
+{% block meta_description %}Get in touch with the DevBlog team. We'd love to hear from you!{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="page-header bg-primary bg-gradient text-white py-5">
+    <div class="container py-4">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-5 fw-bold mb-3">Contact Us</h1>
+                <p class="lead text-white-75 mb-0">
+                    Have a question, suggestion, or just want to say hello?
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Contact Section -->
+<div class="container py-5">
+    <div class="row g-5">
+        <!-- Contact Form -->
+        <div class="col-lg-7">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4 p-md-5">
+                    <h3 class="fw-bold mb-4">Send Us a Message</h3>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="name" class="form-label fw-semibold">Full Name</label>
+                                <input type="text" name="name" id="name" class="form-control" 
+                                       placeholder="John Doe" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="email" class="form-label fw-semibold">Email Address</label>
+                                <input type="email" name="email" id="email" class="form-control" 
+                                       placeholder="john@example.com" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="subject" class="form-label fw-semibold">Subject</label>
+                                <input type="text" name="subject" id="subject" class="form-control" 
+                                       placeholder="What's this about?" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="message" class="form-label fw-semibold">Message</label>
+                                <textarea name="message" id="message" class="form-control" rows="6" 
+                                          placeholder="Write your message here..." required></textarea>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="bi bi-send me-1"></i>Send Message
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Contact Info -->
+        <div class="col-lg-5">
+            <div class="card border-0 shadow-sm bg-light">
+                <div class="card-body p-4">
+                    <h4 class="fw-bold mb-4">Get In Touch</h4>
+                    
+                    <div class="d-flex mb-4">
+                        <div class="icon-circle bg-primary bg-opacity-10 me-3 flex-shrink-0">
+                            <i class="bi bi-envelope text-primary"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-semibold mb-1">Email</h6>
+                            <p class="text-muted mb-0">hello@devblog.com</p>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex mb-4">
+                        <div class="icon-circle bg-success bg-opacity-10 me-3 flex-shrink-0">
+                            <i class="bi bi-geo-alt text-success"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-semibold mb-1">Location</h6>
+                            <p class="text-muted mb-0">San Francisco, CA</p>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex mb-4">
+                        <div class="icon-circle bg-warning bg-opacity-10 me-3 flex-shrink-0">
+                            <i class="bi bi-clock text-warning"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-semibold mb-1">Response Time</h6>
+                            <p class="text-muted mb-0">Usually within 24-48 hours</p>
+                        </div>
+                    </div>
+                    
+                    <hr class="my-4">
+                    
+                    <h6 class="fw-semibold mb-3">Follow Us</h6>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="btn btn-outline-secondary btn-sm">
+                            <i class="bi bi-twitter-x"></i>
+                        </a>
+                        <a href="#" class="btn btn-outline-secondary btn-sm">
+                            <i class="bi bi-github"></i>
+                        </a>
+                        <a href="#" class="btn btn-outline-secondary btn-sm">
+                            <i class="bi bi-linkedin"></i>
+                        </a>
+                        <a href="#" class="btn btn-outline-secondary btn-sm">
+                            <i class="bi bi-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
